@@ -242,12 +242,6 @@
             if (this.options.isOpen) {
                 this.open();
             }
-
-            if (this.options.openOnHover) {
-                $(".ms-parent").hover(function (e) {
-                    that.open();
-                });
-            }
         },
 
         optionToHtml: function (i, elm, group, groupDisabled) {
@@ -276,7 +270,7 @@
                         selected ? ' checked="checked"' : '',
                         disabled ? ' disabled="disabled"' : '',
                         sprintf(' data-group="%s"', group)),
-                    text,
+                    sprintf('<span>%s</span>', text),
                     '</label>',
                     '</li>'
                 ].join(''));
@@ -608,12 +602,6 @@
             this.$choice.addClass('disabled');
         },
 
-        destroy: function () {
-            this.$el.show();
-            this.$parent.remove();
-            delete $.fn.multipleSelect;
-        },
-
         checkAll: function () {
             this.$selectItems.prop('checked', true);
             this.$selectGroups.prop('checked', true);
@@ -679,6 +667,22 @@
             this.updateOptGroupSelect();
             this.updateSelectAll();
             this.options.onFilter(text);
+        },
+
+        getPlaceholder: function() {
+            return this.options.placeholder;
+        },
+
+        setPlaceholder: function(newPlaceHolder) {
+            this.$choice.find('.placeholder').text(newPlaceHolder);
+        },
+
+        setSelectAll: function(value) {
+            this.options.selectAll = value;
+        },
+
+        setFilter: function(value) {
+            this.options.filter = value;
         }
     };
 
@@ -694,7 +698,8 @@
                 'checkAll', 'uncheckAll',
                 'focus', 'blur',
                 'refresh', 'close',
-                'destroy'
+                'getPlaceholder', 'setPlaceholder',
+                'setSelectAll', 'setFilter'
             ];
 
         this.each(function () {
@@ -748,7 +753,6 @@
         addTitle: false,
         filterAcceptOnEnter: false,
         hideOptgroupCheckboxes: false,
-        openOnHover: false,
 
         selectAllText: 'Select all',
         allSelected: 'All selected',
@@ -759,7 +763,7 @@
             return false;
         },
         textTemplate: function ($elm) {
-            return $elm.text();
+            return $elm.html();
         },
         labelTemplate: function ($elm) {
             return $elm.attr('label');
