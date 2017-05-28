@@ -684,6 +684,10 @@
 
         setFilter: function(value) {
             this.options.filter = value;
+        },
+
+        setNoMatchesFoundText: function(value) {
+            this.options.noMatchesFound = value;
         }
     };
 
@@ -693,14 +697,11 @@
 
             value,
             allowedMethods = [
-                'getSelects', 'setSelects',
-                'enable', 'disable',
-                'open', 'close',
-                'checkAll', 'uncheckAll',
-                'focus', 'blur',
-                'refresh', 'close',
-                'getPlaceholder', 'setPlaceholder',
-                'setSelectAll', 'setFilter'
+                'getSelects', 'setSelects','enable', 'disable',
+                'open', 'close','checkAll', 'uncheckAll',
+                'focus', 'blur','refresh', 'close',
+                'getPlaceholder', 'setPlaceholder','setSelectAll', 'setFilter',
+                'setNoMatchesFoundText'
             ];
 
         this.each(function () {
