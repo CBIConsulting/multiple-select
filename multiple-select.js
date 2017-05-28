@@ -675,6 +675,7 @@
 
         setPlaceholder: function(newPlaceHolder) {
             this.$choice.find('.placeholder').text(newPlaceHolder);
+            this.options.placeholder = newPlaceHolder;
         },
 
         setSelectAll: function(value) {
