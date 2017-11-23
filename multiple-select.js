@@ -158,9 +158,13 @@
             this.options.position,
             sprintf(' style="width: %s"', this.options.dropWidth)));
 
+        // info message (to display messages when you want)
+        this.$info = $(sprintf('<div class="ms-info">%s</div>', this.options.infoMessage));
+
         this.$el.after(this.$parent);
         this.$parent.append(this.$choice);
         this.$parent.append(this.$drop);
+        this.$drop.append(this.$info);
 
         if (this.$el.prop('disabled')) {
             this.$choice.addClass('disabled');
@@ -197,6 +201,8 @@
                 $ul = $('<ul></ul>');
 
             this.$drop.html('');
+            this.$drop.append(this.$info);
+            this.displayingInfo = false;
 
             if (this.options.filter) {
                 this.$drop.append([
@@ -608,6 +614,7 @@
             this.$selectAll.prop('checked', true);
             this.update();
             this.options.onCheckAll();
+            this.options.onCheckAllClick();
         },
 
         uncheckAll: function () {
@@ -667,6 +674,50 @@
             this.updateOptGroupSelect();
             this.updateSelectAll();
             this.options.onFilter(text);
+        },
+
+        getPlaceholder: function() {
+            return this.options.placeholder;
+        },
+
+        setPlaceholder: function(newPlaceHolder) {
+            this.$choice.find('.placeholder').text(newPlaceHolder);
+            this.options.placeholder = newPlaceHolder;
+        },
+
+        setSelectAll: function(value) {
+            this.options.selectAll = value;
+        },
+
+        setFilter: function(value) {
+            this.options.filter = value;
+        },
+
+        setNoMatchesFoundText: function(value) {
+            this.options.noMatchesFound = value;
+        },
+
+        setInfoMessage: function(message) {
+            this.options.infoMessage = message ? message : '';
+        },
+
+        getInfoMessage: function() {
+            return this.options.infoMessage;
+        },
+
+        displayInfoMessage: function(showForMiliseconds) {
+            shwForMseconds = showForMiliseconds ? showForMiliseconds : 1500;
+
+            if (!this.displayingInfo) {
+                var that = this;
+                this.displayingInfo = true;
+                this.$info.addClass('displayed');
+
+                setTimeout(function() {
+                    that.$info.removeClass('displayed');
+                    that.displayingInfo = false;
+                }, shwForMseconds);
+            }
         }
     };
 
@@ -676,12 +727,11 @@
 
             value,
             allowedMethods = [
-                'getSelects', 'setSelects',
-                'enable', 'disable',
-                'open', 'close',
-                'checkAll', 'uncheckAll',
-                'focus', 'blur',
-                'refresh', 'close'
+                'getSelects', 'setSelects','enable', 'disable',
+                'open', 'close','checkAll', 'uncheckAll',
+                'focus', 'blur','refresh', 'close',
+                'getPlaceholder', 'setPlaceholder','setSelectAll', 'setFilter',
+                'setNoMatchesFoundText', 'setInfoMessage', 'displayInfoMessage'
             ];
 
         this.each(function () {
@@ -735,6 +785,7 @@
         addTitle: false,
         filterAcceptOnEnter: false,
         hideOptgroupCheckboxes: false,
+        infoMessage: '',
 
         selectAllText: 'Select all',
         allSelected: 'All selected',
@@ -761,6 +812,9 @@
             return false;
         },
         onUncheckAll: function () {
+            return false;
+        },
+        onCheckAllClick: function () {
             return false;
         },
         onFocus: function () {
