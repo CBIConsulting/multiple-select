@@ -101,7 +101,7 @@
     position: relative;
     white-space: nowrap;
     width: 100%;
-    z-index: 10000;
+    z-index: 999;
 }
 
 .ms-search input {
@@ -188,4 +188,35 @@
 
 .ms-drop .ms-no-results {
     display: none;
+}
+
+.ms-drop .ms-info {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    padding: 0;
+    border: none;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    background: #f9f9f9;
+    color: #555;
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.ms-drop .ms-info.displayed {
+    width: 290px;
+    height: 40px;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid #ddd;
 }
